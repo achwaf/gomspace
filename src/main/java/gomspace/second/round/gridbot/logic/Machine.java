@@ -1,17 +1,23 @@
 package gomspace.second.round.gridbot.logic;
 
-public class Machine {
-	int h;
-    int w;
-    int initial_h;
-    int initial_w;
-    Direction d;
-    int height;
-    int width;
+import gomspace.second.round.gridbot.utils.Direction;
+import gomspace.second.round.gridbot.utils.Position;
 
-    public Machine(){}
+public class Machine {
+	private Position p;
+    public Direction d;
+
+    public Machine(Position p){
+    	this.p = p;
+    }
     
-    public void turnLeft(){
+    public void setPositionAt(Position p) {
+    	this.p.x = p.x;
+    	this.p.y = p.y;
+    }
+    
+    
+    private void turnLeft(){
         switch(d){
             case DOWN : d = Direction.RIGHT;break;
             case RIGHT : d = Direction.UP;break;
@@ -20,7 +26,7 @@ public class Machine {
         }
     }
 
-    public void turnRight(){
+    private void turnRight(){
         switch(d){
             case DOWN : d = Direction.LEFT;break;
             case RIGHT : d = Direction.DOWN;break;
@@ -29,23 +35,31 @@ public class Machine {
         }
     }
 
-    public boolean moveForward(char[][]map){
-        int current_h = h;
-        int current_w = w;
-        if(d == Direction.DOWN && h < height-1 && map[h+1][w] != '#') h++;
-        else if (d == Direction.UP && h > 0 && map[h-1][w] != '#') h--;
-        else if (d == Direction.RIGHT && w < width-1 && map[h][w+1] != '#') w++;
-        else if (d == Direction.LEFT && w > 0 && map[h][w-1] != '#') w--;
-        else return false;
-        map[current_h][current_w]++;
-        return true;        
+    public Position moveForward(){
+        // and move forward 1 unit;
+        if(d == Direction.DOWN) p.y++;
+        else if (d == Direction.UP) p.y--;
+        else if (d == Direction.RIGHT) p.x++;
+        else if (d == Direction.LEFT) p.x--; 
+        return this.p;
+    }
+    
+    public Position getPosition() {
+    	return this.p;
     }
 
-    public void move(char[][] map, Boolean isLeft){
-       
+    public void turn(boolean isCurrentCellBlack){
+       if(isCurrentCellBlack) {
+    	   // If the machine is in a black square, turn 90° counter-clockwise 
+    	   turnLeft();
+       }else {
+    	   // If the machine is in a white square, turn 90° clockwise
+    	   turnRight();
+       }
     }
+    
 
     public String toString(){
-        return "pika.h = " + h + " , pika.w = "  + w + " , pika.d = " + d.toString();
+        return "machine.y = " + p.y + " , machine.x = "  + p.x + " , machine.d = " + d;
     }
 }

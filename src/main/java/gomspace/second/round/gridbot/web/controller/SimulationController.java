@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gomspace.second.round.gridbot.service.ISimulationService;
+import gomspace.second.round.gridbot.service.SimulationService;
 import io.swagger.annotations.Api;
 
 @Api(value = "Simulation")
@@ -13,7 +13,7 @@ import io.swagger.annotations.Api;
 public class SimulationController {
 	
 	@Autowired
-    private ISimulationService simulationService; 
+    private SimulationService simulationService; 
 
     
 	
