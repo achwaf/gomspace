@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Simulation</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/visualize.js"></script>
+<title>Simulation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="js/visualize.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <div class="canvas">
-        <canvas id="grid" width=600 height=600>
-    </div>
-    <div class="commands">
-        
-    </div>
-</div>
+	<div class="container">
+		<div class="world">
+			<div class="banner">
+				<div class="title">Gridbot Simulation</div>
+				<div class="frame">
+					Frame <span>125255</span>
+				</div>
+			</div>
+			<div class="simulation">
+				<canvas id="grid" width=600 height=600></canvas>
+			</div>
+		</div>
+		<div class="god-s-pannel">
+			<div class="holy-commands">
+				<div class="commands-title">Commands</div>
+			</div>
+			<div class="holy-rules">			
+				<div class="rules-title">Rules</div>
+			</div>
+
+		</div>
+		<div class="commands"></div>
+	</div>
 
 </body>
 </html>
