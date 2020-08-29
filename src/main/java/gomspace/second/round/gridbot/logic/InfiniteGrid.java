@@ -9,8 +9,8 @@ import gomspace.second.round.gridbot.utils.Position;
 public class InfiniteGrid {
 
 	private Map<Position, boolean[][]> gridMap;
-	private final int width = 100;
-	private final int height = 100;
+	private final int width = 40;
+	private final int height = 40;
 	private Position currentGridPos;
 	private int gridTop = 0, gridLeft = 0, gridRight = 0, gridBottom = 0;
 
@@ -42,9 +42,10 @@ public class InfiniteGrid {
 			gridMap.put(pos, newGrid);
 		}
 	}
-	
+
 	public Position calculatePositionAbsolute(Position localPosition) {
-		Position absolute = new Position(currentGridPos.x * width + localPosition.x,currentGridPos.y * height + localPosition.y);
+		Position absolute = new Position(currentGridPos.x * width + localPosition.x,
+				currentGridPos.y * height + localPosition.y);
 		return absolute;
 	}
 
@@ -79,7 +80,7 @@ public class InfiniteGrid {
 		int worldWidth = gridRight - gridLeft + 1;
 		int worldHeight = gridBottom - gridTop + 1;
 
-		boolean[][] world = new boolean[worldWidth][worldHeight];
+		boolean[][] world = new boolean[worldWidth * width][worldHeight * height];
 
 		for (Entry<Position, boolean[][]> entry : gridMap.entrySet()) {
 			Position key = entry.getKey();
@@ -129,7 +130,7 @@ public class InfiniteGrid {
 			for (int j = start.y; j < start.y + height; j++) {
 				cell.x = i;
 				cell.y = j;
-				window[i][j] =  isBlackInWorld(cell);
+				window[i][j] = isBlackInWorld(cell);
 			}
 		}
 		return window;

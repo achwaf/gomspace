@@ -7,11 +7,20 @@ public class Snapshot {
 	public Direction machineDirection;
 	public int gridheight;
 	public int gridWidth;
-	public boolean[][] grid;
+	public int[][] grid;
 	
 	
 	public Snapshot(int width, int height) {
 		this.gridheight = height;
 		this.gridWidth = width;
+	}
+	
+	public void setGrid(boolean[][] grid) {
+		this.grid = new int[gridWidth][gridheight];
+		for (int i = 0; i < gridWidth; i++) {
+			for (int j =0; j < gridheight; j++) {
+				this.grid[i][j] = grid[i][j]?1:0;
+			}
+		}
 	}
 }

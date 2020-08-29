@@ -15,9 +15,9 @@ public class SimulationService {
 
 	private Machine machine;
 	private InfiniteGrid grid;
-	private int renderHeight = 60;
-	private int renderWidth = 75;
-	private int slideEffectMargin = 15;
+	private int renderHeight = 20;
+	private int renderWidth = 20;
+	private int slideEffectMargin = 5;
 	private Position renderStart;
 	private Step currentStep = Step.DO_NOTHING;
 	private Position baseCell, newCell, adjustedPosition;
@@ -84,7 +84,10 @@ public class SimulationService {
 			updateSimulation(newCell);
 		}
 		snapshot.hideMachine = true;
-		snapshot.grid = grid.renderWorld();
+		boolean[][] gridResult = grid.renderWorld();
+		snapshot.gridWidth = gridResult.length;
+		snapshot.gridheight = gridResult[0].length;
+		snapshot.setGrid(gridResult);
 		
 		return snapshot;
 	}
@@ -110,7 +113,8 @@ public class SimulationService {
 		else if (renderStart.y + renderHeight - machineAbsolutePos.y < slideEffectMargin) renderStart.y++;
 		
 		// render the grid based on the rendering start
-		snapshot.grid = grid.renderAtPosition(renderStart, renderWidth, renderHeight);
+		boolean[][] gridResult = grid.renderAtPosition(renderStart, renderWidth, renderHeight);
+		snapshot.setGrid(gridResult);
 		snapshot.machineDirection = machine.d;
 		snapshot.machineX = machineAbsolutePos.x - renderStart.x;
 		snapshot.machineY = machineAbsolutePos.y - renderStart.y;

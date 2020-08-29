@@ -5,7 +5,7 @@ import gomspace.second.round.gridbot.utils.Position;
 
 public class Machine {
 	private Position p;
-    public Direction d;
+    public Direction d = Direction.RIGHT;
 
     public Machine(Position p){
     	this.p = p;
