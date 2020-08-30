@@ -64,11 +64,12 @@ const drawSnapshot = (() => {
 
 // interval caller
 let keepCalling = false;
+let timeOutCall;
 let isReset = false;
 const run = (func, time) => {
 	if (keepCalling) {
 		isReset = false;
-		setTimeout(async function() {
+		timeOutCall = setTimeout(async function() {
 			await func();
 			run(func, time);
 		}, time);
@@ -76,9 +77,10 @@ const run = (func, time) => {
 }
 
 // calling the api
-const reset = () => {
+const reset = async () => {
+	await fetch('http://localhost:8080/api/simulation/reset');	
+	drawSnapshot(null);
 	isReset = true;
-	fetch('http://localhost:8080/api/simulation/reset');
 }
 
 const nextFrame = async () => {
@@ -131,8 +133,8 @@ const runHandler = () => {
 
 }
 
-const resetHandler = async () => {
-	drawSnapshot(null);
+const resetHandler = () => {
+	clearTimeout(timeOutCall);
 	keepCalling = false;
 	reset();
 	runButton.disabled = false;
@@ -143,7 +145,7 @@ const resetHandler = async () => {
 
 const stepHandler = () => {
 	if (!isRunning) {
-		isRunning = true; 
+		isRunning = true;
 		runButton.disabled = true;
 		downloadButton.disabled = true;
 		keepCalling = true;
@@ -156,9 +158,9 @@ const stepHandler = () => {
 
 }
 
-const downloadHandler = () => {	
+const downloadHandler = () => {
 	let numericValue = parseInt(input.value);
-	if(isNaN(numericValue)) numericValue = 100;
+	if (isNaN(numericValue)) numericValue = 100;
 	input.value = Math.abs(numericValue);
 	runSimulation();
 }
