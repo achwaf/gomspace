@@ -4,7 +4,9 @@
 <title>Simulation</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="js/download.js"></script>
 <script src="js/visualize.js"></script>
 </head>
 <body>
@@ -13,9 +15,15 @@
 		<div class="world">
 			<div class="banner">
 				<div class="title">Gridbot Simulation</div>
-				<div class="frame">
-					Frame <span>125255</span>
+				<div class="counter">
+					<div>
+						Frame <span id="frames"></span>
+					</div>
+					<div class="moves">
+						Move <span id="moves"></span>
+					</div>
 				</div>
+
 			</div>
 			<div class="simulation">
 				<canvas id="grid" width=600 height=600></canvas>
@@ -24,9 +32,36 @@
 		<div class="god-s-pannel">
 			<div class="holy-commands">
 				<div class="commands-title">Commands</div>
+				<button class="button" onclick="resetHandler()">
+					<i class="fa fa-stop red"></i><span> Reset</span>
+				</button>
+				<div class="splitter"></div>
+				<button id="run" class="button" onclick="runHandler()">
+					<i class="fa fa-play"></i><span>Run very fast</span>
+				</button>
+				<button id="step" class="button" onclick="stepHandler()">
+					<i class="fa fa-play"></i><span> Run step by step</span>
+				</button>
+				<div class="splitter"></div>
+				<div class="after-moves-test">
+					Run simulation for <input id="duration" class="green" type="number" min="1"
+						value="100"> moves and download the result
+				</div>
+				<button id="download" class="button" onclick="downloadHandler()">
+					<i class="fa fa-arrow-down"></i><span> Download result</span>
+				</button>
 			</div>
-			<div class="holy-rules">			
+			<div class="holy-rules">
 				<div class="rules-title">Rules</div>
+				<ul class="rules-list">
+					<li>If the machine is in <span class="white-square"></span>,
+						turn 90' clockwise and move forward 1 unit
+					</li>
+					<li>If the machine is in a <span class="black-square"></span>,
+						turn 90' counter-clockwise and move forward 1 unit
+					</li>
+					<li>At every move flip the color of the base square</li>
+				</ul>
 			</div>
 
 		</div>

@@ -19,7 +19,7 @@ public class SimulationService {
 	private int renderWidth = 20;
 	private int slideEffectMargin = 5;
 	private Position renderStart;
-	private Step currentStep = Step.DO_NOTHING;
+	private Step currentStep;
 	private Position baseCell, newCell, adjustedPosition;
 	private Snapshot snapshot;
 
@@ -27,11 +27,13 @@ public class SimulationService {
 	public void initialize() {
 		// create the grid
 		grid = new InfiniteGrid();
-		// put the machine in the middle of the rendering window
-		// which is inside the grid block
-		machine = new Machine(new Position(renderWidth / 2, renderHeight / 2));
 		renderStart = new Position(0, 0);
+		// put the machine inside of the rendering window
+		// which is inside the grid block
+		machine = new Machine(new Position(9, 9));
 		snapshot = new Snapshot(renderWidth, renderHeight);
+
+		currentStep = Step.START;
 	}
 
 	public Snapshot nextFrame() {
@@ -51,13 +53,13 @@ public class SimulationService {
 		// this ensures the machine is in the selected grid block at the end of the move
 		// and it's position is local to the block in question
 		updateSimulation(newCell);
-		
+		snapshot.move++;
 		return render();
 	}
 
 	public Snapshot nextFrameByStep() {
 		switch (currentStep) {
-		case DO_NOTHING:
+		case START:
 		case TURN_MACHINE:
 			baseCell = machine.getPosition();
 			machine.turn(grid.isBlackInLocal(baseCell));
@@ -68,15 +70,16 @@ public class SimulationService {
 		case FLIP_BASE_CELL:
 			grid.flipInLocal(baseCell);
 			updateSimulation(newCell);
+			snapshot.move++;
 			break;
 		}
 		currentStep = currentStep.next();
 		return render();
 	}
-	
-	public Snapshot SimulationAfter(int frames) {
+
+	public String SimulationAfter(int moves) {
 		// return the whole grid
-		for(int i=0;i<frames ;i++) {
+		for (int i = 0; i < moves; i++) {
 			baseCell = machine.getPosition();
 			machine.turn(grid.isBlackInLocal(baseCell));
 			newCell = machine.moveForward();
@@ -84,12 +87,8 @@ public class SimulationService {
 			updateSimulation(newCell);
 		}
 		snapshot.hideMachine = true;
-		boolean[][] gridResult = grid.renderWorld();
-		snapshot.gridWidth = gridResult.length;
-		snapshot.gridheight = gridResult[0].length;
-		snapshot.setGrid(gridResult);
-		
-		return snapshot;
+		String world = grid.renderWorld();
+		return world;
 	}
 
 	private void updateSimulation(Position newPosition) {
@@ -99,26 +98,29 @@ public class SimulationService {
 		machine.setPositionAt(adjustedPosition);
 	}
 
-	private Snapshot render() {	
-		
+	private Snapshot render() {
+
 		// if the machin's position is in the slideEffectMargin
 		// slide the renderingStart along with the machine
 		// to keep it inside the rendered window
 		Position machineAbsolutePos = grid.calculatePositionAbsolute(machine.getPosition());
-		
-		if(machineAbsolutePos.x - renderStart.x < slideEffectMargin) renderStart.x--;
-		else if (renderStart.x + renderWidth - machineAbsolutePos.x < slideEffectMargin) renderStart.x++;
-		
-		if(machineAbsolutePos.y - renderStart.y < slideEffectMargin) renderStart.y--;
-		else if (renderStart.y + renderHeight - machineAbsolutePos.y < slideEffectMargin) renderStart.y++;
-		
+
+		if (machineAbsolutePos.x - renderStart.x < slideEffectMargin)
+			renderStart.x--;
+		else if (renderStart.x + renderWidth - machineAbsolutePos.x < slideEffectMargin)
+			renderStart.x++;
+
+		if (machineAbsolutePos.y - renderStart.y < slideEffectMargin)
+			renderStart.y--;
+		else if (renderStart.y + renderHeight - machineAbsolutePos.y < slideEffectMargin)
+			renderStart.y++;
+
 		// render the grid based on the rendering start
 		boolean[][] gridResult = grid.renderAtPosition(renderStart, renderWidth, renderHeight);
 		snapshot.setGrid(gridResult);
 		snapshot.machineDirection = machine.d;
 		snapshot.machineX = machineAbsolutePos.x - renderStart.x;
 		snapshot.machineY = machineAbsolutePos.y - renderStart.y;
-		
 		return snapshot;
 	}
 

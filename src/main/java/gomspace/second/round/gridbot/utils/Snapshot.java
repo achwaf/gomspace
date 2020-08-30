@@ -4,6 +4,7 @@ public class Snapshot {
 	public boolean hideMachine = false;
 	public int machineX;
 	public int machineY;
+	public int move;
 	public Direction machineDirection;
 	public int gridheight;
 	public int gridWidth;

@@ -9,8 +9,8 @@ import gomspace.second.round.gridbot.utils.Position;
 public class InfiniteGrid {
 
 	private Map<Position, boolean[][]> gridMap;
-	private final int width = 40;
-	private final int height = 40;
+	private final int width = 12;
+	private final int height = 12;
 	private Position currentGridPos;
 	private int gridTop = 0, gridLeft = 0, gridRight = 0, gridBottom = 0;
 
@@ -73,14 +73,16 @@ public class InfiniteGrid {
 			adjustedPosition.y += height;
 		}
 		putGridToPosition(gridPosition);
+		currentGridPos = gridPosition;
 		return adjustedPosition;
 	}
 
-	public boolean[][] renderWorld() {
+	public String renderWorld() {
 		int worldWidth = gridRight - gridLeft + 1;
 		int worldHeight = gridBottom - gridTop + 1;
-
 		boolean[][] world = new boolean[worldWidth * width][worldHeight * height];
+
+		StringBuilder sb = new StringBuilder();
 
 		for (Entry<Position, boolean[][]> entry : gridMap.entrySet()) {
 			Position key = entry.getKey();
@@ -93,7 +95,16 @@ public class InfiniteGrid {
 			}
 		}
 
-		return world;
+		for (int j = 0; j < worldHeight * height; j++) {
+			for (int i = 0; i < worldWidth * width; i++) {
+				// serialize
+				sb.append(world[i][j] ? '#' : '-');
+				sb.append(' ');
+			}
+			sb.append('\n');
+		}
+
+		return sb.toString();
 	}
 
 	private boolean isBlackInWorld(Position cell) {
@@ -107,11 +118,11 @@ public class InfiniteGrid {
 		cellInGrid.y = cell.y % height;
 
 		// cell position in grid has to be positive
-		if (cell.x < 0) {
+		if (cellInGrid.x < 0) {
 			grid.x--;
 			cellInGrid.x += width;
 		}
-		if (cell.y < 0) {
+		if (cellInGrid.y < 0) {
 			grid.y--;
 			cellInGrid.y += height;
 		}
@@ -126,10 +137,10 @@ public class InfiniteGrid {
 	public boolean[][] renderAtPosition(Position start, int width, int height) {
 		boolean[][] window = new boolean[width][height];
 		Position cell = new Position(0, 0);
-		for (int i = start.x; i < start.x + width; i++) {
-			for (int j = start.y; j < start.y + height; j++) {
-				cell.x = i;
-				cell.y = j;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				cell.x = i + start.x;
+				cell.y = j + start.y;
 				window[i][j] = isBlackInWorld(cell);
 			}
 		}

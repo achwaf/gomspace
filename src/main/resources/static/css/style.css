@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'specialFont';
-	src: url('SnesItalic-vmAPZ.ttf');
+	src: url('../fonts/SnesItalic-vmAPZ.ttf');
 }
 
 .container, .banner {
@@ -8,16 +8,51 @@
 	flex-direction: row;
 }
 
-body{
+body {
 	min-width: 700px;
 	min-height: 500px;
 	font-family: specialFont;
 }
 
+.button {	
+	display : flex;
+	font-family: specialFont;
+	width: 75%;
+	font-size: max(15px, 4vmin);
+	align-self: center;
+	text-align: left;
+	padding: 10px 30px;
+	margin: 10px 0px;
+	align-items: center;
+}
 
-.container,html, body {
-	margin : 0px;
-	padding : 0px;
+.button i {
+	margin-right: 10px;
+}
+
+.after-moves-test{
+	width: 75%;
+	font-size: max(15px, 4vmin);
+	align-self: center;
+	text-align: left;
+}
+.after-moves-test input{
+	margin : 0px 5px;
+	font-family: specialFont;
+	width: 100px;
+	font-size: max(15px, 4vmin);
+}
+
+.splitter{
+	border-top: 1.5px solid rgb(64, 46, 42);
+	width: 80%;
+	align-self: center;
+	margin: 20px 0px;
+}
+
+.container, html, body {
+	margin: 0px;
+	padding: 0px;
 	height: 100%;
 	width: 100%;
 }
@@ -26,34 +61,66 @@ body{
 	height: 20%;
 	background: rgb(47, 41, 99);
 }
+.red{
+	color : rgb(224, 41, 0);
+}
+.green{
+	color : rgb(90, 188, 185);
+}
 
 .title {
-	font-size: max(60px,12vmin);
+	font-size: max(60px, 12vmin);
 	align-self: center;
-	color : rgb(255, 182, 39);
+	color: rgb(255, 182, 39);
 	margin: 0px 0px 0px 20px;
 }
 
-.frame {
-	font-size: max(30px,5vmin);
+.counter {
+	font-size: max(30px, 5vmin);
 	align-self: center;
-	flex-grow : 1;
-	text-align : right;
+	flex-grow: 1;
+	text-align: right;
 	margin: 0px 20px 0px 20px;
 	color: rgb(239, 98, 108);
 }
-.commands-title{
-	text-align : center;
-	font-size: max(30px,6vmin);
-	margin: 20px 0px;
+.moves{	
+	color: rgb(242, 100, 48);
+}
+
+.commands-title {
+	text-align: center;
+	font-size: max(30px, 6vmin);
 	color: rgb(97, 112, 125);
 }
 
-.rules-title{
-	text-align : center;
-	font-size: max(30px,6vmin);
-	margin: 20px 0px;
+.rules-title {
+	text-align: center;
+	font-size: max(30px, 6vmin);
 	color: rgb(58, 190, 255);
+}
+
+.rules-list{
+	font-size: max(15px, 3vmin);
+	margin: 5px;
+}
+.white-square{
+	display : inline-block;
+	width: 15px;
+	height: 15px;
+	background: rgb(237, 248, 253);
+	border: 2px solid rgb(179, 236, 255);
+	margin: 0px 5px;
+	padding: 0px;
+}
+
+.black-square{
+	display : inline-block;
+	width: 15px;
+	height: 15px;
+	background: rgb(179, 236, 255);
+	border: 2px solid rgb(52, 106, 131);
+	margin: 0px 5px;
+	padding: 0px;
 }
 
 .world {
@@ -67,7 +134,8 @@ body{
 	justify-content: center;
 	align-items: center;
 	justify-content: center;
-	background: rgb(241, 246, 248);
+	background: rgb(251, 250, 238);
+	/*background: rgb(241, 246, 248);*/
 }
 
 #grid {
@@ -77,17 +145,24 @@ body{
 	max-height: 100%;
 }
 
-.god-s-pannel, .holy-commands, .world {
+.god-s-pannel, .holy-commands,.holy-rules, .world, .counter {
 	display: flex;
 	flex-direction: column;
 }
 
-.holy-commands{
+.holy-commands {
 	border-bottom: 5px solid rgb(64, 46, 42);
 	flex-grow: 1;
+	padding: 20px 0px;
+}
+
+.holy-rules {
+	background: rgb(244, 233, 181);	
+	padding: 20px 0px;
 }
 
 .god-s-pannel {
 	width: 35%;
 	min-width: 200px;
+	overflow: auto;
 }

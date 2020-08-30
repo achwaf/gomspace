@@ -41,11 +41,11 @@ public class Machine {
         else if (d == Direction.UP) p.y--;
         else if (d == Direction.RIGHT) p.x++;
         else if (d == Direction.LEFT) p.x--; 
-        return this.p;
+        return new Position(p);
     }
     
     public Position getPosition() {
-    	return this.p;
+    	return new Position(p);
     }
 
     public void turn(boolean isCurrentCellBlack){
